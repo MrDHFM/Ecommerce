@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -19,6 +19,8 @@ import * as yup from "yup";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
+
+import "./Login.css"
 
 const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -51,8 +53,10 @@ const Login = () => {
   };
   console.log(apiResult);
 
-  const passwordRules =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  // useEffect(() => {
+  //   handleSubmitLogin();
+  // },[])
+
 
   const basicSchema = yup.object().shape({
     email: yup.string().email("Please enter valid email").required("Required"),
@@ -75,8 +79,8 @@ const Login = () => {
   });
 
   return (
-    <div className=" h-screen flex justify-center items-center">
-      <Card sx={{ maxWidth: 345 }}>
+    <div className="loginParent h-screen flex justify-center items-center">
+      <Card className="card" sx={{ maxWidth: 345 }}>
         .
         <div className=" flex flex-col items-center justify-center mt-3">
           <SupervisedUserCircleIcon sx={{ width: "80px", height: "80px" }} />
@@ -126,10 +130,10 @@ const Login = () => {
             </FormControl>
 
             <CardActions className=" flex justify-center">
-              <Button size="small" type="submit">
+              <Button className="btn" size="small" type="submit">
                 Login
               </Button>
-              <Button size="small" onClick={() => navigate("/signup")}>
+              <Button className="btn" size="small" onClick={() => navigate("/signup")}>
                 Sign UP
               </Button>
             </CardActions>
