@@ -1,22 +1,57 @@
 
 .loginParent{
-    background-image:url("../../Images/loginBg1.jpg");
-    background-position: center;
-    background-size: cover;
+    height: 100vh;
+	background-color: #06172c;
+}
+.box {
+	position: absolute;
+	-webkit-transform: translate(0%, 0%);
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	top: 50%;
+	left: 50%;
+}
+.card {
+	height: 100%;
+	width: 100%;
+	background-color: rgba(255, 255, 255, 0.06);
+	-webkit-backdrop-filter: blur(15px);
+	backdrop-filter: blur(15px);
+	padding: 50px 25px;
+	-webkit-box-shadow: 0 25px 23px rgba(0, 0, 0, 0.15);
+	box-shadow: 0 25px 23px rgba(0, 0, 0, 0.15);
+	border: 1.5px solid rgba(255, 255, 255, 0.06);
+	border-radius: 8px;
 }
 
-.card{
-    background: rgba( 255, 255, 255,0.1 );
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    backdrop-filter: blur( 4px );
-    -webkit-backdrop-filter: blur( 4px );
-    border-radius: 10px;
-    border: 1px solid rgba( 255, 255, 255, 0.18 );
+.shape1 {
+	height: 150px;
+	width: 150px;
+	position: absolute;
+	background: -o-linear-gradient(315deg, #ff5b84, #eb3461);
+	background: linear-gradient(135deg, #ff5b84, #eb3461);
+	border-radius: 50%;
+	bottom: 80%;
+	right: -50px;
+	z-index: -1;
 }
+.MuiInputLabel-root {
+    color: white !important;
+    
+  }
+  .MuiOutlinedInput-notchedOutline {
+    border-color: black !important;
+  }
+  
 
-
-.btn{
-    color: black;
-    padding: 10px;
-   
+.shape2 {
+	height: 150px;
+	width: 150px;
+	position: absolute;
+	background: -o-linear-gradient(315deg, #426cf8, #3ebdf0);
+	background: linear-gradient(135deg, #426cf8, #3ebdf0);
+	border-radius: 50%;
+	top: 80%;
+	left: -50px;
+	z-index: -1;
 }

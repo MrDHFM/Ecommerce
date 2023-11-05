@@ -21,6 +21,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 
 import "./Login.css"
+import { red } from "@mui/material/colors";
 
 const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -33,8 +34,8 @@ const Login = () => {
     event.preventDefault();
   };
 
-  const handleSubmitLogin = () => {
-    axios
+  const handleSubmitLogin = async () => {
+   await axios
       .post("http://localhost:3535/auth/signin", formik.values)
       .then((res) => {
         console.log(res);
@@ -47,9 +48,11 @@ const Login = () => {
       .catch((err) => {
         console.log(err.response.data.message);
 
-        if (err.response.status === 404 || err.response.status === 401)
+        if (err.response.status === 400 )
           setApiResult(err.response.data.message);
+          
       });
+      
   };
   console.log(apiResult);
 
@@ -61,12 +64,12 @@ const Login = () => {
   const basicSchema = yup.object().shape({
     email: yup.string().email("Please enter valid email").required("Required"),
     password: yup
-      .string()
-      .min(8, "Password must be 8 characters.")
-      .matches(/[0-9]/, "Password requires a number")
-      .matches(/[a-z]/, "Password requires a lowercase letter ")
-      .matches(/[A-Z]/, "Password requires a uppercase letter")
-      .matches(/[^\w]/, "Password requires a symbol"),
+      .string().required("Required")
+      // .min(8, "Password must be 8 characters.")
+      // .matches(/[0-9]/, "Password requires a number")
+      // .matches(/[a-z]/, "Password requires a lowercase letter ")
+      // .matches(/[A-Z]/, "Password requires a uppercase letter")
+      // .matches(/[^\w]/, "Password requires a symbol"),
   });
 
   const formik = useFormik({
@@ -79,9 +82,13 @@ const Login = () => {
   });
 
   return (
-    <div className="loginParent h-screen flex justify-center items-center">
-      <Card className="card" sx={{ maxWidth: 345 }}>
-        .
+   <div className="loginParent">
+     <div class="box">
+	<div class="container">
+		<div class="shape1"></div>
+		<div class="shape2"></div>
+		
+    <div className="card w-96"   >
         <div className=" flex flex-col items-center justify-center mt-3">
           <SupervisedUserCircleIcon sx={{ width: "80px", height: "80px" }} />
           <h1 className=" text-lg font-bold">Login</h1>
@@ -98,9 +105,10 @@ const Login = () => {
               value={formik.values.email}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              //  error={formik.errors.email}
+             
+                error={formik.errors.email && formik.touched.email}
             />
-            {<p></p>}
+            {formik.errors.email && formik.touched.email &&<span className="text-red-600">{formik.errors.email}</span>}
             <FormControl fullWidth sx={{}} variant="outlined">
               <InputLabel htmlFor="outlined-adornment-password">
                 Password
@@ -112,7 +120,7 @@ const Login = () => {
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                // error={formik.errors.password}
+                error={formik.errors.password && formik.touched.password}
                 type={showPassword ? "text" : "password"}
                 endAdornment={
                   <InputAdornment position="end">
@@ -128,19 +136,89 @@ const Login = () => {
                 }
               />
             </FormControl>
+            {formik.errors.email && formik.touched.email &&<span className="text-red-600">{formik.errors.email}</span>}
+
 
             <CardActions className=" flex justify-center">
-              <Button className="btn" size="small" type="submit">
+              <Button sx={{ color:"white"}} size="large" type="submit">
                 Login
               </Button>
-              <Button className="btn" size="small" onClick={() => navigate("/signup")}>
+              <Button className="btn" sx={{ color:"white"}} size="large" onClick={() => navigate("/signup")}>
                 Sign UP
               </Button>
             </CardActions>
           </form>
         </CardContent>
-      </Card>
-    </div>
+      </div>
+		
+	</div>
+</div>
+   </div>
+    // <div className="loginParent h-screen  flex justify-center items-center">
+    //   <div className="shape1"><button>ewdasfgchbnv</button></div>
+		// <div className="shape2"></div>
+    //   <Card className="card w-96"  style={ { backgroundColor:"" }} >
+    //     <div className=" flex flex-col items-center justify-center mt-3">
+    //       <SupervisedUserCircleIcon sx={{ width: "80px", height: "80px" }} />
+    //       <h1 className=" text-lg font-bold">Login</h1>
+    //       <p className=" text-red-600">{apiResult}</p>
+    //     </div>
+    //     <CardContent>
+    //       <form onSubmit={formik.handleSubmit} className="space-y-3">
+    //         <TextField
+    //           fullWidth
+    //           multiline
+    //           id="email"
+    //           name="email"
+    //           label="Email"
+    //           value={formik.values.email}
+    //           onChange={formik.handleChange}
+    //           onBlur={formik.handleBlur}
+    //             error={formik.errors.email && formik.touched.email}
+    //         />
+    //         {formik.errors.email && formik.touched.email &&<span>{formik.errors.email}</span>}
+    //         <FormControl fullWidth sx={{}} variant="outlined">
+    //           <InputLabel htmlFor="outlined-adornment-password">
+    //             Password
+    //           </InputLabel>
+    //           <OutlinedInput
+    //             name="password"
+    //             label="Password"
+    //             id="outlined-adornment-password password"
+    //             value={formik.values.password}
+    //             onChange={formik.handleChange}
+    //             onBlur={formik.handleBlur}
+    //             error={formik.errors.password && formik.touched.password}
+    //             type={showPassword ? "text" : "password"}
+    //             endAdornment={
+    //               <InputAdornment position="end">
+    //                 <IconButton
+    //                   aria-label="toggle password visibility"
+    //                   onClick={handleClickShowPassword}
+    //                   onMouseDown={handleMouseDownPassword}
+    //                   edge="end"
+    //                 >
+    //                   {showPassword ? <VisibilityOff /> : <Visibility />}
+    //                 </IconButton>
+    //               </InputAdornment>
+    //             }
+    //           />
+    //         </FormControl>
+    //         {formik.errors.email && formik.touched.email &&<span>{formik.errors.email}</span>}
+
+
+    //         <CardActions className=" flex justify-center">
+    //           <Button className="btn" size="small" type="submit">
+    //             Login
+    //           </Button>
+    //           <Button className="btn" size="small" onClick={() => navigate("/signup")}>
+    //             Sign UP
+    //           </Button>
+    //         </CardActions>
+    //       </form>
+    //     </CardContent>
+    //   </Card>
+    // </div>
   );
 };
 
