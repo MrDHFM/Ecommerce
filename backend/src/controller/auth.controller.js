@@ -18,38 +18,51 @@ const signUp = async (req, res) => {
   }
 };
 
-const login = (req, res) => {
+const login = async (req, res) => {
   try {
     const { captchaValue, email, password } = req.body;
     console.log(captchaValue);
 
-    axios({
-      url: `https://www.google.com/recaptcha/api/siteverify?secret=${SECRET_KEY}&response=${captchaValue}`,
-      method: "POST",
-    })
-      .then(async ({ data }) => {
-        console.log(data);
-        if (data.success) {
-          const user = await userService.getUserByEmail(email);
-          if (!user) {
-            return res
-              .status(400)
-              .send({ message: "User not found with this email ", email });
-          }
-          const isPasswordValid = await bcrypt.compare(password, user.password);
+    // axios({
+    //   url: `https://www.google.com/recaptcha/api/siteverify?secret=${SECRET_KEY}&response=${captchaValue}`,
+    //   method: "POST",
+    // })
+    //   .then(async ({ data }) => {
+    //     console.log(data);
+    //     if (data.success) {
+    //       const user = await userService.getUserByEmail(email);
+    //       if (!user) {
+    //         return res
+    //           .status(400)
+    //           .send({ message: "User not found with this email ", email });
+    //       }
+    //       const isPasswordValid = await bcrypt.compare(password, user.password);
 
-          if (!isPasswordValid) {
-            return res.status(400).send({ message: "Invalid Password" });
-          }
-          const jwt = jwtProvider.generateToken(user._id);
-          return res.status(200).send({ jwt, message: "Login Success" });
-        } else {
-          res.status(400).send({ message: "Captcha verification failed" });
-        }
-      })
-      .catch((err) => {
-        res.status(400).send({ message: "Invalid Captcha" });
-      });
+    //       if (!isPasswordValid) {
+    //         return res.status(400).send({ message: "Invalid Password" });
+    //       }
+    //       const jwt = jwtProvider.generateToken(user._id);
+    //       return res.status(200).send({ jwt, message: "Login Success" });
+    //     } else {
+    //       res.status(400).send({ message: "Captcha verification failed" });
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     res.status(400).send({ message: "Invalid Captcha" });
+    //   });
+    const user = await userService.getUserByEmail(email);
+    if (!user) {
+      return res
+        .status(400)
+        .send({ message: "User not found with this email ", email });
+    }
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(400).send({ message: "Invalid Password" });
+    }
+    const jwt = jwtProvider.generateToken(user._id);
+    return res.status(200).send({ jwt, message: "Login Success" });
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }

@@ -1,12 +1,13 @@
 import React from "react";
 import "./Home.css";
-import Header from "../Header/Header";
+import MainCarousel from "../../components/HomeCarousel/MainCarousel";
 
 const Home = () => {
   return (
     <div>
-      <Header />
-      <div>Home</div>
+      <div>
+        <MainCarousel />
+      </div>
     </div>
   );
 };
